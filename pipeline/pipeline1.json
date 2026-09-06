@@ -128,6 +128,35 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Alerts",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "AzureSQLtoLake",
+						"dependencyConditions": [
+							"Failed",
+							"Skipped"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-08.northcentralus.logic.azure.com:443/workflows/06b0389d767b47659e99689cca3bc9cd/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=w9cpfMfkQWnB8ml_9iE-biI3otsOHdmR1aOV4TTgDHE",
+					"body": {
+						"value": "{\n    \"pipeline name\": \"@{pipeline().Pipeline}\"\n\"pipelinerunid\": \"@{pipeline().RunId}\"\n}",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
